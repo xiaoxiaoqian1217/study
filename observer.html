@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+  // 发布者 
+  class Pulisher {
+    constructor(){
+      this.observers = []
+    }
+    // 添加订阅者
+    add(key){
+      this.observers.push(key)
+    }
+    // 移除订阅者
+    remove(key){
+      this.observers.forEach((observer,idx) => {
+        if(observer === item){
+          this.observers.splice(idx,1)
+        }
+      })
+    }
+    // 通知订阅者
+    notify(info){
+      this.observers.forEach(observer => {
+        observer.update(info)
+      })
+    }
+  } 
+  // 具体的需求文档发布者
+  class ProPublisher extends Pulisher{
+    constructor(){
+      super()
+      this.observers = []
+      // 初始化需求文档的状态
+      this.state = {}
+    }
+    getState(){
+      return this.state
+    }
+    setState(state){
+      // 需求文档变化了
+      this.state = state
+      // 通知所有订阅者
+      this.notify(state)
+    }
+  }
+
+  //订阅者
+  class Observer {
+    constructor(){
+
+    }
+    update(params) {
+      console.log(`${params}是订阅者发过来`)
+      
+    }
+  }
+  // 具体的订阅者
+  class DeveloperObserver extends Observer{
+    constructor(){
+      super()
+    }
+    update(info){
+      console.log(`${info}是订阅者发过来`, 'DeveloperObserver')
+    }
+
+  }
+
+const pulisher = new Pulisher()
+const proPublisher = new ProPublisher()
+const observer1 = new DeveloperObserver('xiaoming')
+const observer2 = new DeveloperObserver('xiaoqian')
+  // 添加小明
+  proPublisher.add(observer1)
+  // 添加小倩
+  proPublisher.add(observer2)
+  // 需求文档有变化了
+  proPublisher.setState('change')
+// 通知所有人
+// proPublisher.notify()
+</script>
+</html>
