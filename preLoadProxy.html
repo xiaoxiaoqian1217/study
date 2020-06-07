@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+</body>
+<script>
+  class PreLoadImg{
+    constructor(imgNode){
+      this.imgNode =  imgNode
+    }
+    setSrc(targetSrc){
+      this.imgNode.src = targetSrc
+    }
+  }
+  class ProxyImg 
+    static LOADING_URL = './IMG_1823.JPG'
+    constructor(imgNode){
+      // 获取真实的img节点
+      this.targetImg = imgNode
+    }
+    setSrc(src){
+      this.targetImg.setSrc(ProxyImg.LOADING_URL)
+      // 新建一个虚拟的dom
+      const virtualImg = new Image()
+      virtualImg.onload = () => {
+            this.targetImg.src = src
+            this.targetImg.setSrc(src)
+      }
+      virtualImg.src = src
+    }
+  }
+  const  img = document.createElement('img')
+  document.body.appendChild(img)
+  const targetImg = new PreLoadImg(img)
+  console.log('targetImg',targetImg)
+  targetImg.setSrc('https://images.pexels.com/photos/1928151/pexels-photo-1928151.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260')
+  // 设置代理
+  const proxyImg = new ProxyImg(targetImg)
+  proxyImg.setSrc('https://images.pexels.com/photos/1928151/pexels-photo-1928151.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260')
+</script>
+
+</html>
