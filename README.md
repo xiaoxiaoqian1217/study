@@ -26,7 +26,6 @@
 **虚拟代理**
 - 图片预加载 --- 实践见真理
   预加载其实是为了避免网络不好，或者图片太大时图片留白用户体验不好
-
     
     ```
     // 创建一个预加载图片类
@@ -63,7 +62,7 @@
     ```
     // demo.html 
 
-    const  img = document.createElement('img')
+  const  img = document.createElement('img')
   document.body.appendChild(img)
   const targetImg = new PreLoadImg(img)
   console.log('targetImg',targetImg)
@@ -71,8 +70,7 @@
   // 设置代理
   const proxyImg = new ProxyImg(targetImg)
   proxyImg.setSrc('https://images.pexels.com/photos/1928151/pexels-photo-1928151.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260')
-
-    ```
+  ```
   [preLoadProxy.html](./preLoadProxy.html)
 + 缓存代理
 
