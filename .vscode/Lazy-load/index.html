@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Lazy-Load</title>
+</head>
+<style>
+  #lazyLoadWrapper{
+    width: 100vw;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .pic{
+    padding:10px ;
+    width: 280px;
+    height: 380px;
+    /* display: inline-block; */
+    /* margin:  auto ; */
+  }
+</style>
+<body>
+  <div id='lazyLoadWrapper'>
+      <image class="pic"  alt='加载中' data-src='./images/1.JPG'></image>
+      <image class="pic" alt='加载中' data-src='./images/2.JPG'></image>
+      <image class="pic" alt='加载中' data-src='./images/3.JPG'></image>
+      <image class="pic" alt='加载中' data-src='./images/4.JPG'></image>
+      <image class="pic" alt='加载中' data-src='./images/5.JPG'></image>
+      <image class="pic" alt='加载中' data-src='./images/6.JPG'></image>
+      <image class="pic" alt='加载中' data-src='./images/7.JPG'></image>
+      <image class="pic" alt='加载中' data-src='./images/8.JPG'></image>
+      <image class="pic" alt='加载中' data-src='./images/9.JPG'></image>
+      <image class="pic" alt='加载中' data-src='./images/10.JPG'></image>
+  </div>
+</body>
+<script>
+  const imgs = document.getElementsByTagName('img')
+  let num = 0;
+  lazyload()
+  function lazyload(){
+      const viewHeight = window.innerHeight || document.documentElement.clientHeight
+      for (let i = num; i < imgs.length; i++) {
+          const distance = viewHeight - imgs[i].getBoundingClientRect().top
+          if(distance > 0) {
+            imgs[i].src = imgs[i].getAttribute('data-src')
+            // 前i张图片已经加载完毕，下次从第i+1张开始检查是否露出
+             num = i + 1
+          }
+          
+      }
+  }
+  
+  window.addEventListener('scroll', lazyload, false)
+</script>
+
+</html>
