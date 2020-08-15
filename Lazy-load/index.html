@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,53 +8,90 @@
   <title>Lazy-Load</title>
 </head>
 <style>
-  #lazyLoadWrapper{
+  #lazyLoadWrapper {
     width: 100vw;
     margin: auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
   }
-  .pic{
-    padding:10px ;
+
+  .pic {
+    padding: 10px;
     width: 280px;
     height: 380px;
     /* display: inline-block; */
     /* margin:  auto ; */
   }
 </style>
+
 <body>
   <div id='lazyLoadWrapper'>
-      <image class="pic"  alt='加载中' data-src='./images/1.JPG'></image>
-      <image class="pic" alt='加载中' data-src='./images/2.JPG'></image>
-      <image class="pic" alt='加载中' data-src='./images/3.JPG'></image>
-      <image class="pic" alt='加载中' data-src='./images/4.JPG'></image>
-      <image class="pic" alt='加载中' data-src='./images/5.JPG'></image>
-      <image class="pic" alt='加载中' data-src='./images/6.JPG'></image>
-      <image class="pic" alt='加载中' data-src='./images/7.JPG'></image>
-      <image class="pic" alt='加载中' data-src='./images/8.JPG'></image>
-      <image class="pic" alt='加载中' data-src='./images/9.JPG'></image>
-      <image class="pic" alt='加载中' data-src='./images/10.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/1.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/2.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/3.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/4.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/5.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/6.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/7.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/8.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/9.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/10.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/1.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/2.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/3.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/4.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/5.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/6.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/7.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/8.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/9.JPG'></image>
+    <image class="pic" alt='加载中' data-src='./images/10.JPG'></image>
   </div>
 </body>
 <script>
   const imgs = document.getElementsByTagName('img')
   let num = 0;
-  lazyload()
-  function lazyload(){
-      const viewHeight = window.innerHeight || document.documentElement.clientHeight
-      for (let i = num; i < imgs.length; i++) {
-          const distance = viewHeight - imgs[i].getBoundingClientRect().top
-          if(distance > 0) {
-            imgs[i].src = imgs[i].getAttribute('data-src')
-            // 前i张图片已经加载完毕，下次从第i+1张开始检查是否露出
-             num = i + 1
-          }
-          
+
+  function throttle(funs, delay) {
+    let last = 0
+    let timer = null;
+    return function () {
+      const now = +new Date()
+      const context = this
+      let args = arguments
+      console.log(now - last)
+      if (now - last < delay) {
+          timer = setTimeout(() => {
+            funs.apply(context, args)
+            last = now
+            clearTimeout(timer)
+            timer = null
+          }, delay);
+        }
+      else{
+        // 1. 第一次可以立即执行
+        // 2.当新的一次的执行时间与上一次的执行时间大于时间间隔，无论如何也不能再等了必须给用户一次反馈
+        funs.apply(context,args)
+        last = now
       }
+    }
   }
-  
-  window.addEventListener('scroll', lazyload, false)
+  lazyload()
+  function lazyload() {
+    const viewHeight = window.innerHeight || document.documentElement.clientHeight
+    for (let i = num; i < imgs.length; i++) {
+      const distance = viewHeight - imgs[i].getBoundingClientRect().top
+      if (distance > 0) {
+        imgs[i].src = imgs[i].getAttribute('data-src')
+        // 前i张图片已经加载完毕，下次从第i+1张开始检查是否露出
+        num = i + 1
+      }
+
+    }
+  }
+
+  window.addEventListener('scroll', throttle(lazyload, 1000), false)
 </script>
 
 </html>
