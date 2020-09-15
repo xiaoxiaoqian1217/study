@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+ var threeSum = function(nums) {
+    var res = []
+    var sortNum = nums.sort((a,b)=>a-b)
+    console.log('sortNum', sortNum)
+    var R = sortNum.length-1
+    var L=0
+    for(let i = 0; i< sortNum.length; i++){
+       L= i+1
+        if(i=== 0 && sortNum[i]> 0) break;
+        if(i> 0 && sortNum[i] === sortNum[i-1]) continue;
+        while(L< R){
+        if(sortNum[L]=== sortNum[L+1]) L++
+        if(sortNum[R] === sortNum[R-1]) R--
+        var sum = sortNum[i] + sortNum[L] + sortNum[R]
+        if(sum===0){
+            res.push([sortNum[i],sortNum[L], sortNum[R]])   
+            L++;
+            R--;
+        }
+        if(sum > 0) R--
+        if(sum < 0) L++
+    } 
+    }
+    return res
+};
+
+console.log(threeSum([-4,-2,-2,-2,0,1,2,2,2,3,3,4,4,6,6])
+)
+</script>
+</html>
