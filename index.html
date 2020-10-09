@@ -12,4 +12,28 @@
     <li><a href="./throttle-debounce/index.html">throttle-debounce</a></li>
   </ul>
 </body>
+<script>
+  async function foo(){
+    console.log('aa')
+
+  }
+
+  bar()
+  console.log('ee')
+  Promise.resolve('cc').then((res)=>{
+    console.log(res)
+  })
+  async function bar (){
+    console.log('bb')
+    await foo()
+    console.log('99')
+
+  }
+  new Promise((resolve,reject)=> {
+    resolve('aa')
+  }).then(() => {
+    console.log('dd')
+  })
+  console.log('ff')
+</script>
 </html>
